@@ -1,6 +1,7 @@
 let isArduinoAvailable = true; // Altere para false se o Arduino não estiver disponível
 let currentArduinoSpeed = 0; // Velocidade atual do Arduino
 let currentHelixSpeed = 0; // Velocidade atual da hélice
+let isArduinoTabActive = true; // Controla se a aba Arduino está ativa
 
 function setWindSpeed(speed) {
     const blade = document.querySelector('.petal-wrap'); // Seleciona o contêiner das pétalas do cata-vento
@@ -27,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 document.querySelectorAll('#tabs li').forEach(tab => {
     tab.addEventListener('click', () => {
         const isArduinoTab = tab.id === 'arduino-tab';
+        isArduinoTabActive = isArduinoTab; // Atualiza o estado da aba ativa
         document.getElementById('arduino-content').style.display = isArduinoTab ? 'block' : 'none';
         document.getElementById('helix-content').style.display = isArduinoTab ? 'none' : 'block';
 
@@ -45,25 +47,32 @@ document.querySelectorAll('#tabs li').forEach(tab => {
 // Função para atualizar a exibição do Arduino
 function updateArduinoData(speed) {
     currentArduinoSpeed = speed; // Atualiza a velocidade do Arduino
-    document.getElementById('wind-speed').innerText = speed.toFixed(2);
-    const currentRow = document.querySelector(`tbody tr[data-speed="${speed}"]`);
-    const rows = document.querySelectorAll('tbody tr');
-    rows.forEach(row => row.style.backgroundColor = ''); // Resetar todas as cores
-    if (currentRow) {
-        currentRow.style.backgroundColor = 'lightyellow'; // Mudar a cor da linha atual
-    }
 
-    // Atualizar a rotação e cor do cata-vento na aba Arduino
-    setWindSpeed(speed);
+    // Somente atualiza se a aba Arduino estiver ativa
+    if (isArduinoTabActive) {
+        document.getElementById('wind-speed').innerText = speed.toFixed(2);
+        const currentRow = document.querySelector(`tbody tr[data-speed="${speed}"]`);
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach(row => row.style.backgroundColor = ''); // Resetar todas as cores
+        if (currentRow) {
+            currentRow.style.backgroundColor = 'lightyellow'; // Mudar a cor da linha atual
+        }
+    }
 }
 
-// Simulação de atualização de dados do Arduino
-function simulateArduinoData() {
-    setInterval(() => {
-        // Gera uma velocidade aleatória entre 0 e 18
-        const randomSpeed = Math.floor(Math.random() * 19);
-        updateArduinoData(randomSpeed);
-    }, 1000); // Atualiza a cada segundo
+// Função para lidar com o WebSocket e receber dados do Arduino
+function setupWebSocket() {
+    const ws = new WebSocket('ws://localhost:3000'); // Conecta ao WebSocket
+
+    ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        const windSpeed = data.windSpeed;
+        updateArduinoData(windSpeed); // Atualiza os dados na aba Arduino
+    };
+
+    ws.onerror = (error) => {
+        console.error('Erro na conexão do WebSocket:', error);
+    };
 }
 
 // Função para definir a velocidade do vento na aba Hélice
@@ -72,17 +81,10 @@ function setHelixWindSpeed(speed) {
     setWindSpeed(speed); // Atualiza a animação do cata-vento na aba Hélice
 }
 
-// Listener para o botão na aba Hélice
-document.getElementById('helix-button').addEventListener('click', () => {
-    // Aqui você pode definir a lógica para pegar a velocidade desejada
-    const userSpeed = parseFloat(document.getElementById('helix-speed-input').value) || 0; // Supondo que você tenha um input
-    setHelixWindSpeed(userSpeed); // Define a velocidade para o cata-vento da aba Hélice
-});
-
 // Adiciona o listener do DOMContentLoaded para garantir que tudo esteja carregado antes de executar
 document.addEventListener('DOMContentLoaded', () => {
-    // Inicia a simulação
+    // Inicia o WebSocket para receber dados do Arduino
     if (isArduinoAvailable) {
-        simulateArduinoData();
+        setupWebSocket();
     }
 });
