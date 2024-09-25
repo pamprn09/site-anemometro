@@ -7,9 +7,11 @@ LiquidCrystal lcd(rs, en, d4, d5, d6, d7); // Configura os pinos do LCD
 // Definindo o pino de entrada analógica
 const int windPin = A0; // Pino A0 conectado à saída do sensor
 
-// Verifique o datasheet do sensor para ajustar esses valores:
-const float maxVoltage = 5.0; // Ajustado para 5V (valor típico)
-const float maxWindSpeed = 32.0; // Ajustado para 32 m/s (valor típico de sensores de vento)
+// Definindo a tensão máxima de saída do sensor
+const float maxVoltage = 4.0; // Tensão máxima do sensor (4V)
+
+// Definindo a velocidade do vento máxima correspondente em m/s
+const float maxWindSpeed = 32.0; // Velocidade máxima do vento (7 m/s)
 
 // Fator de conversão de m/s para km/h
 const float conversionFactor = 3.6;
@@ -28,11 +30,11 @@ void loop() {
   int sensorValue = analogRead(windPin);
   
   // Converter o valor lido (0 a 1023) para a tensão correspondente (0 a 5V)
-  float voltage = sensorValue * (12.0 / 1023.0); // Agora assumindo tensão máxima de 5V
+  float voltage = sensorValue * (12 / 1023.0);
   
   // Converter a tensão lida na velocidade do vento em m/s
   float windSpeedMs = (voltage / maxVoltage) * maxWindSpeed;
-  
+
   // Converter a velocidade do vento para km/h
   float windSpeedKmh = windSpeedMs * conversionFactor;
 
@@ -44,14 +46,26 @@ void loop() {
   lcd.print("                "); // Limpa a linha (16 espaços)
   lcd.setCursor(0, 1); // Volta ao início da linha
   
-  // Exibir a velocidade ou "NAO" se não houver vento
+  // Obter o tipo de vento
+  const char* windType = getWindType(windSpeedKmh);
+  
+  // Exibir a velocidade e o tipo de vento com uma barra
   if (windSpeedKmh > 0) {
-    lcd.print(windSpeedKmh, 2); // Exibe a velocidade em km/h com 2 casas decimais
-    lcd.print(" km/h");
+      lcd.print(windSpeedKmh, 2); // Exibe a velocidade em km/h com 2 casas decimais
+      lcd.print("km/h "); // Adiciona a barra
+      lcd.print(windType); // Exibe o tipo de vento
   } else {
-    lcd.print("NAO");
+      lcd.print("NAO");
   }
   
   // Aguardar 1 segundo antes de fazer a próxima leitura
   delay(1000);
+}
+
+// Função para determinar o tipo de vento com base na velocidade
+const char* getWindType(float speed) {
+    if (speed >= 0 && speed < 1) return "Calmo";
+    else if (speed >= 1 && speed < 12) return "Leve";
+    else if (speed >= 12 && speed < 29) return "Médio";
+    else return "Forte";
 }
