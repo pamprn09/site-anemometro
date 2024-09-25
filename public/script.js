@@ -18,6 +18,20 @@ function setWindSpeed(speed) {
     }
 }
 
+// Função para ajustar a velocidade de rotação do cata-vento
+function rotateHelixWithSpeed(speed) {
+    const blade_arduino = document.querySelector('#arduino-content .petal-wrap'); // Seleciona o contêiner das pétalas do cata-vento
+
+    // Ajuste da rotação baseado na velocidade recebida
+    if (speed > 0) {
+        const animationSpeed = 5 / (speed + 1); // Calcula a duração da animação inversamente proporcional à velocidade
+        blade_arduino.style.animationDuration = `${animationSpeed}s`; // Define a duração da animação
+        blade_arduino.style.animationPlayState = 'running'; // Inicia a animação
+    } else {
+        blade_arduino.style.animationPlayState = 'paused'; // Pausa a animação se a velocidade for zero
+    }
+}
+
 // Certifique-se de definir a animação como pausada inicialmente
 document.addEventListener('DOMContentLoaded', () => {
     const blade = document.querySelector('.petal-wrap');
@@ -57,6 +71,7 @@ function updateArduinoData(speed) {
         if (currentRow) {
             currentRow.style.backgroundColor = 'lightyellow'; // Mudar a cor da linha atual
         }
+        rotateHelixWithSpeed(speed);
     }
 }
 
@@ -83,6 +98,8 @@ function setHelixWindSpeed(speed) {
 
 // Adiciona o listener do DOMContentLoaded para garantir que tudo esteja carregado antes de executar
 document.addEventListener('DOMContentLoaded', () => {
+    const blade = document.querySelector('.petal-wrap');
+    blade.style.animationPlayState = 'paused';
     // Inicia o WebSocket para receber dados do Arduino
     if (isArduinoAvailable) {
         setupWebSocket();
