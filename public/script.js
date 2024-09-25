@@ -113,14 +113,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Função para determinar o tipo de vento com base na velocidade (em km/h)
 function getWindType(speed) {
-    if (speed < 1) return 'Calmo';
-    if (speed >= 1 && speed <= 5) return 'Brisa leve';
-    if (speed > 5 && speed <= 11) return 'Brisa moderada';
-    if (speed > 11 && speed <= 19) return 'Brisa fresca';
-    if (speed > 19 && speed <= 28) return 'Vento moderado';
+    if (speed < 1) return 'Calma';
+    if (speed >= 1 && speed <= 7) return 'Aragem';
+    if (speed > 7 && speed <= 11) return 'Vento leve';
+    if (speed > 11 && speed <= 19) return 'Vento moderado';
+    if (speed > 19 && speed <= 28) return 'Vento Fresco';
     if (speed > 28 && speed <= 38) return 'Vento forte';
-    if (speed > 38 && speed <= 49) return 'Ventania';
-    if (speed > 49 && speed <= 61) return 'Vendaval';
-    if (speed > 61 && speed <= 74) return 'Tempestade';
+    if (speed > 38 && speed <= 49) return 'Vento Muito forte';
+    if (speed > 49 && speed <= 61) return 'Tempestade';
+    if (speed > 61 && speed <= 74) return 'Tempestade violenta';
     return 'Furacão';
 }

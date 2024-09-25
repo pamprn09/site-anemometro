@@ -10,8 +10,8 @@ const int windPin = A0; // Pino A0 conectado à saída do sensor
 // Definindo a tensão máxima de saída do sensor
 const float maxVoltage = 4.0; // Tensão máxima do sensor (4V)
 
-// Definindo a velocidade do vento máxima correspondente
-const float maxWindSpeed = 14.0; // Velocidade máxima do vento (14 m/s)
+// Definindo a velocidade do vento máxima correspondente em m/s
+const float maxWindSpeed = 7.0; // Velocidade máxima do vento (7 m/s)
 
 // Fator de conversão de m/s para km/h
 const float conversionFactor = 3.6;
@@ -35,8 +35,11 @@ void loop() {
   // Converter a tensão lida na velocidade do vento em m/s
   float windSpeedMs = (voltage / maxVoltage) * maxWindSpeed;
   
-  // Enviar apenas o valor da velocidade do vento em m/s via serial
-  Serial.println(windSpeedMs); // Agora envia apenas a velocidade
+  // Converter a velocidade do vento para km/h
+  float windSpeedKmh = windSpeedMs * conversionFactor;
+
+  // Enviar o valor da velocidade do vento em km/h via serial
+  Serial.println(windSpeedKmh); // Agora envia a velocidade em km/h
 
   // Mover o cursor para a segunda linha e limpar o conteúdo anterior
   lcd.setCursor(0, 1);
@@ -44,9 +47,9 @@ void loop() {
   lcd.setCursor(0, 1); // Volta ao início da linha
   
   // Exibir a velocidade ou "NAO" se não houver vento
-  if (windSpeedMs > 0) {
-    lcd.print(windSpeedMs, 2); // Exibe a velocidade em m/s com 2 casas decimais
-    lcd.print(" m/s");
+  if (windSpeedKmh > 0) {
+    lcd.print(windSpeedKmh, 2); // Exibe a velocidade em km/h com 2 casas decimais
+    lcd.print(" km/h");
   } else {
     lcd.print("NAO");
   }
