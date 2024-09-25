@@ -35,23 +35,17 @@ void loop() {
   // Converter a tensão lida na velocidade do vento em m/s
   float windSpeedMs = (voltage / maxVoltage) * maxWindSpeed;
   
-  // Converter a velocidade do vento de m/s para km/h
-  float windSpeedKmh = windSpeedMs * conversionFactor;
-  
-  // Exibir os dados no monitor serial
-  Serial.print("Tensão (V): ");
-  Serial.print(voltage);
-  Serial.print(" | Velocidade do Vento (km/h): ");
-  Serial.println(windSpeedKmh);
-  
+  // Enviar apenas o valor da velocidade do vento em m/s via serial
+  Serial.println(windSpeedMs); // Agora envia apenas a velocidade
+
   // Mover o cursor para a segunda linha e limpar o conteúdo anterior
   lcd.setCursor(0, 1);
   lcd.print("                "); // Limpa a linha (16 espaços)
   lcd.setCursor(0, 1); // Volta ao início da linha
   
   // Exibir a velocidade ou "NAO" se não houver vento
-  if (windSpeedMs != 0) {
-    lcd.print(windSpeedMs); // Exibe a velocidade em m/s
+  if (windSpeedMs > 0) {
+    lcd.print(windSpeedMs, 2); // Exibe a velocidade em m/s com 2 casas decimais
     lcd.print(" m/s");
   } else {
     lcd.print("NAO");
