@@ -26,7 +26,8 @@ let windSpeed = 0;
 parser.on('data', (data) => {
     console.log(data);
     windSpeed = parseFloat(data); // Recebe a velocidade do vento do Arduino
-    console.log(`Velocidade do vento: ${windSpeed} m/s`);
+    numberHoped = data;
+    console.log(`Velocidade do ventos: ${windSpeed} m/s`);
 });
 
 // Enviar a velocidade do vento para o cliente via WebSocket
