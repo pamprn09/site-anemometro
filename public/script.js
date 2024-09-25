@@ -65,6 +65,11 @@ function updateArduinoData(speed) {
     // Somente atualiza se a aba Arduino estiver ativa
     if (isArduinoTabActive) {
         document.getElementById('wind-speed').innerText = speed.toFixed(2);
+
+         // Determinar o tipo de vento
+        const windType = getWindType(speed);
+        document.getElementById('wind-type').innerText = windType; // Exibe o tipo de vento
+        
         const currentRow = document.querySelector(`tbody tr[data-speed="${speed}"]`);
         const rows = document.querySelectorAll('tbody tr');
         rows.forEach(row => row.style.backgroundColor = ''); // Resetar todas as cores
@@ -105,3 +110,17 @@ document.addEventListener('DOMContentLoaded', () => {
         setupWebSocket();
     }
 });
+
+// Função para determinar o tipo de vento com base na velocidade (em km/h)
+function getWindType(speed) {
+    if (speed < 1) return 'Calmo';
+    if (speed >= 1 && speed <= 5) return 'Brisa leve';
+    if (speed > 5 && speed <= 11) return 'Brisa moderada';
+    if (speed > 11 && speed <= 19) return 'Brisa fresca';
+    if (speed > 19 && speed <= 28) return 'Vento moderado';
+    if (speed > 28 && speed <= 38) return 'Vento forte';
+    if (speed > 38 && speed <= 49) return 'Ventania';
+    if (speed > 49 && speed <= 61) return 'Vendaval';
+    if (speed > 61 && speed <= 74) return 'Tempestade';
+    return 'Furacão';
+}
