@@ -2,96 +2,34 @@ body {
     font-family: Arial, sans-serif;
 }
 
-#container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-}
-
-.tabs {
-    display: flex;
+#tabs {
     margin-bottom: 20px;
 }
 
-.tab-button {
-    background-color: #f1f1f1;
-    border: 1px solid #ddd;
-    padding: 10px 15px;
+#tabs ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#tabs li {
+    display: inline;
+    padding: 10px 20px;
     cursor: pointer;
 }
 
-.tab-button.active {
-    background-color: #ddd;
+#tabs li.active {
+    background-color: #007bff;
+    color: white;
 }
 
-.tab-content {
-    display: none;
+#tabs li:not(.active) {
+    background-color: #f1f1f1;
 }
 
-.tab-content.active {
-    display: block;
-}
-
-#display {
-    text-align: center;
-}
-
-.blade {
-    width: 100px; /* Ajuste o tamanho da hélice */
-    height: 100px; /* Ajuste o tamanho da hélice */
-    background-color: gray; /* Cor inicial da hélice */
-    border-radius: 50%; /* Para dar uma forma circular */
-    margin: 20px auto;
-}
-
-#beaufort-scale {
-    margin-top: 20px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th, td {
+#content {
     border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
+    padding: 20px;
 }
-
-tr.highlight {
-    background-color: lightyellow; /* Cor da linha destacada */
-}
-
-#helix-container {
-    text-align: center;
-}
-
-#wind-options button {
-    margin: 5px;
-    padding: 10px 15px;
-}
-
-@media (max-width: 600px) {
-    #container {
-        flex-direction: column;
-        align-items: flex-start; /* Para melhor ajuste em telas pequenas */
-    }
-
-    #beaufort-scale {
-        margin-top: 10px;
-    }
-
-    table {
-        font-size: 14px; /* Tamanho da fonte reduzido para telas menores */
-    }
-}
-
-/* .tab-button.inactive {
-    background-color: #ccc; 
-    cursor: not-allowed;
-} */
 
 table {
     width: 100%;
@@ -104,20 +42,74 @@ th, td {
     text-align: left;
 }
 
-@media (max-width: 600px) {
-    th, td {
-        display: block;
-        text-align: right;
-    }
+tbody tr:hover {
+    background-color: #f5f5f5;
+}
 
-    th {
-        position: absolute;
-        left: -9999px;
-    }
+tbody tr[data-speed="0"] {
+    background-color: #cce5ff;
+}
 
-    td {
-        text-align: left;
-        padding-left: 50%;
-        position: relative;
-    }
+tbody tr[data-speed="2"] {
+    background-color: #b8daff;
+}
+
+tbody tr[data-speed="4"] {
+    background-color: #007bff;
+}
+
+tbody tr[data-speed="6"] {
+    background-color: #0dcaf0;
+}
+
+tbody tr[data-speed="8"] {
+    background-color: #ffc107;
+}
+
+tbody tr[data-speed="10"] {
+    background-color: #fd7e14;
+}
+
+tbody tr[data-speed="12"] {
+    background-color: #dc3545;
+}
+
+tbody tr[data-speed="14"] {
+    background-color: #bd2130;
+}
+
+tbody tr[data-speed="16"] {
+    background-color: #721c24;
+}
+
+tbody tr[data-speed="18"] {
+    background-color: #ff6347;
+}
+
+/* Estilos para animação da hélice */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+#blade, #blade-sim {
+    animation: spin 0s linear infinite;
+    transition: animation 0.5s ease;
+}
+
+#buttons {
+    margin-top: 20px;
+}
+
+button {
+    margin: 5px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
 }

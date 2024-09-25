@@ -7,90 +7,93 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="container">
-        <div class="tabs">
-            <button class="tab-button active" onclick="openTab('arduino')">Arduino</button>
-            <button class="tab-button" onclick="openTab('helix')">Hélice</button>
-        </div>
-        
-        <div id="arduino" class="tab-content active">
-            <div id="display">
-                <h1>Velocidade do Vento: <span id="wind-speed">0.00</span> m/s</h1>
-                <div id="blade" class="blade"></div>
+    <div id="tabs">
+        <ul>
+            <li id="arduino-tab" class="active">Arduino</li>
+            <li id="helix-tab">Hélice</li>
+        </ul>
+    </div>
+
+    <div id="content">
+        <div id="arduino-content">
+            <h2>Dados do Arduino</h2>
+            <div id="wind-speed-display">
+                <span id="wind-speed">0.00</span> m/s
             </div>
-            <div id="beaufort-scale">
-                <h2>Escala de Beaufort</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Tipo</th>
-                            <th>Velocidade (km/h)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td data-speed="0">Calma</td>
-                            <td>0 a 1</td>
-                        </tr>
-                        <tr>
-                            <td data-speed="2">Aragarem</td>
-                            <td>2 a 6</td>
-                        </tr>
-                        <tr>
-                            <td data-speed="4">Vento Leve</td>
-                            <td>7 a 11</td>
-                        </tr>
-                        <tr>
-                            <td data-speed="6">Vento Moderado</td>
-                            <td>12 a 19</td>
-                        </tr>
-                        <tr>
-                            <td data-speed="8">Vento Fresco</td>
-                            <td>20 a 28</td>
-                        </tr>
-                        <tr>
-                            <td data-speed="10">Vento Forte</td>
-                            <td>29 a 38</td>
-                        </tr>
-                        <tr>
-                            <td data-speed="12">Vento Muito Forte</td>
-                            <td>39 a 49</td>
-                        </tr>
-                        <tr>
-                            <td data-speed="14">Tempestade</td>
-                            <td>50 a 61</td>
-                        </tr>
-                        <tr>
-                            <td data-speed="16">Tempestade Violenta</td>
-                            <td>62 a 74</td>
-                        </tr>
-                        <tr>
-                            <td data-speed="18">Furacão</td>
-                            <td>75 ou mais</td>
-                        </tr>
-                    </tbody>
-                </table>                
-            </div>
+            <div id="blade" style="width: 100px; height: 100px; background-color: gray; border-radius: 50%; margin: 0 auto; animation: spin 0s linear infinite;"></div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Velocidade (km/h)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-speed="0">
+                        <td>Calma</td>
+                        <td>0 a 1</td>
+                    </tr>
+                    <tr data-speed="2">
+                        <td>Aragarem</td>
+                        <td>2 a 6</td>
+                    </tr>
+                    <tr data-speed="4">
+                        <td>Vento Leve</td>
+                        <td>7 a 11</td>
+                    </tr>
+                    <tr data-speed="6">
+                        <td>Vento Moderado</td>
+                        <td>12 a 19</td>
+                    </tr>
+                    <tr data-speed="8">
+                        <td>Vento Fresco</td>
+                        <td>20 a 28</td>
+                    </tr>
+                    <tr data-speed="10">
+                        <td>Vento Forte</td>
+                        <td>29 a 38</td>
+                    </tr>
+                    <tr data-speed="12">
+                        <td>Vento Muito Forte</td>
+                        <td>39 a 49</td>
+                    </tr>
+                    <tr data-speed="14">
+                        <td>Tempestade</td>
+                        <td>50 a 61</td>
+                    </tr>
+                    <tr data-speed="16">
+                        <td>Tempestade Violenta</td>
+                        <td>62 a 74</td>
+                    </tr>
+                    <tr data-speed="18">
+                        <td>Furacão</td>
+                        <td>75 ou mais</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
-        <div id="helix" class="tab-content">
-            <h1>Selecione a Velocidade do Vento</h1>
-            <div id="helix-container">
-                <div id="helix-blade" class="blade"></div>
-                <div id="wind-options">
-                    <button onclick="setWindSpeed(0)">Calmaria</button>
-                    <button onclick="setWindSpeed(1)">Ar fresco</button>
-                    <button onclick="setWindSpeed(3)">Brisa leve</button>
-                    <button onclick="setWindSpeed(5)">Brisa moderada</button>
-                    <button onclick="setWindSpeed(8)">Brisa fresca</button>
-                    <button onclick="setWindSpeed(11)">Vento forte</button>
-                    <button onclick="setWindSpeed(14)">Vento muito forte</button>
-                    <button onclick="setWindSpeed(18)">Vento forte e tempestade</button>
-                    <button onclick="setWindSpeed(25)">Tempestade</button>
-                </div>
+        <div id="helix-content" style="display: none;">
+            <h2>Simulação da Hélice</h2>
+            <div id="blade-sim" style="width: 100px; height: 100px; background-color: gray; border-radius: 50%; margin: 0 auto; animation: spin 0s linear infinite;"></div>
+            <div id="wind-speed-display-sim">
+                <span id="wind-speed-sim">0.00</span> m/s
+            </div>
+            <div id="buttons">
+                <button onclick="setWindSpeed(0)">Calma (0 a 1 km/h)</button>
+                <button onclick="setWindSpeed(2)">Aragarem (2 a 6 km/h)</button>
+                <button onclick="setWindSpeed(4)">Vento Leve (7 a 11 km/h)</button>
+                <button onclick="setWindSpeed(6)">Vento Moderado (12 a 19 km/h)</button>
+                <button onclick="setWindSpeed(8)">Vento Fresco (20 a 28 km/h)</button>
+                <button onclick="setWindSpeed(10)">Vento Forte (29 a 38 km/h)</button>
+                <button onclick="setWindSpeed(12)">Vento Muito Forte (39 a 49 km/h)</button>
+                <button onclick="setWindSpeed(14)">Tempestade (50 a 61 km/h)</button>
+                <button onclick="setWindSpeed(16)">Tempestade Violenta (62 a 74 km/h)</button>
+                <button onclick="setWindSpeed(18)">Furacão (75 ou mais km/h)</button>
             </div>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
