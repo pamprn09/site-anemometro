@@ -74,10 +74,18 @@
         </div>
 
         <div id="helix-content" style="display: none;">
-            <h2>Simulação da Hélice</h2>
-            <div id="blade-sim" style="width: 100px; height: 100px; background-color: gray; border-radius: 50%; margin: 0 auto; animation: spin 0s linear infinite;"></div>
+            <h2>TIPOS DE VENTO</h2>
             <div id="wind-speed-display-sim">
-                <span id="wind-speed-sim">0.00</span> m/s
+                VELOCIDADE:<span id="wind-speed-sim">0.00</span> m/s
+            </div>
+            <div class="wind-mill fly scale-4" style="bottom: -50px; left: 3%; -webkit-animation-direction: reverse;">
+                <div class="petal-wrap spin">	
+                    <div class="petal blue"></div>
+                    <div class="petal yellow"></div>
+                    <div class="petal orange"></div>
+                    <div class="petal green"></div>		
+                </div>
+                <div class="stand"></div>
             </div>
             <div id="buttons">
                 <button onclick="setWindSpeed(0)">Calma (0 a 1 km/h)</button>

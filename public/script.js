@@ -1,22 +1,26 @@
 let isArduinoAvailable = true; // Altere para false se o Arduino não estiver disponível
 
 function setWindSpeed(speed) {
-    const bladeSim = document.getElementById('blade-sim');
-    bladeSim.style.animationDuration = (10 / (speed + 1)) + 's';
-    document.getElementById('wind-speed-sim').innerText = speed.toFixed(2);
+    const blade = document.querySelector('.petal-wrap'); // Seleciona o contêiner das pétalas do cata-vento
 
-    // Ajustar a cor da hélice de acordo com a velocidade do vento
-    if (speed < 3) {
-        bladeSim.style.backgroundColor = 'blue';
-    } else if (speed < 7) {
-        bladeSim.style.backgroundColor = 'yellow';
+    // A duração da animação deve ser menor para ventos mais fortes
+    blade.style.animationDuration = (5 / (speed + 1)) + 's'; // Ajuste este valor para tornar a animação mais rápida
+    document.getElementById('wind-speed-sim').innerText = speed.toFixed(2); // Atualiza o display da velocidade do vento
+
+    // Iniciar a animação se a velocidade for maior que zero
+    if (speed > 0) {
+        blade.style.animationPlayState = 'running'; // Inicia a animação
     } else {
-        bladeSim.style.backgroundColor = 'red';
+        blade.style.animationPlayState = 'paused'; // Pausa a animação se a velocidade for zero
     }
-
-    // Iniciar a animação
-    bladeSim.style.animationPlayState = 'running';
 }
+
+// Certifique-se de definir a animação como pausada inicialmente
+document.addEventListener('DOMContentLoaded', () => {
+    const blade = document.querySelector('.petal-wrap');
+    blade.style.animationPlayState = 'paused'; // Garante que a hélice comece parada
+});
+
 
 // Função para alternar entre as abas
 document.querySelectorAll('#tabs li').forEach(tab => {
@@ -46,4 +50,12 @@ function updateArduinoData(speed) {
     if (currentRow) {
         currentRow.style.backgroundColor = 'lightyellow'; // Mudar a cor da linha atual
     }
+
+    // Atualizar a rotação e cor do cata-vento
+    setWindSpeed(speed);
 }
+
+// Adiciona o listener do DOMContentLoaded para garantir que tudo esteja carregado antes de executar
+document.addEventListener('DOMContentLoaded', () => {
+    // Qualquer inicialização adicional pode ser colocada aqui, se necessário
+});

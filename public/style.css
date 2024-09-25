@@ -113,3 +113,170 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+
+.wind-mill {
+    position: relative;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    overflow: hidden;
+    width: 327px;
+    height: 400px;
+   }
+   
+   .petal-wrap {
+    width: 327px;
+    height: 327px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    overflow: hidden;
+   }
+   
+   .petal {
+    position: absolute;
+    width: 5em;
+    height: 10.2em;
+    position: absolute;
+    top: 10.2em;
+    left: 10.2em;
+    display: inline-block;
+    overflow: hidden;
+    -webkit-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+    -ms-transform-origin: 0 0;
+    transform-origin: 0 0;
+   }
+   
+   .petal:before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-width: 2.5em;
+    border-style: solid;
+    z-index: 1;
+    -webkit-transfrom: rotateZ(0deg) skew(45deg);
+    -moz-transfrom: rotateZ(0deg) skew(45deg);
+    -ms-transfrom: rotateZ(0deg) skew(45deg);
+    transfrom: rotateZ(0deg) skew(45deg);
+   }
+   
+   .petal:after {
+    content: '';
+    position: absolute;
+    top: 1.2em;
+    left: -3.8em;
+    width: 0;
+    height: 0;
+    border-width: 3.8em;
+    border-style: solid;
+    border-top-right-radius: 0.8em;
+    z-index: -1;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+   }
+   
+   .orange:before {
+    border-color: #E94E1B #E94E1B transparent transparent;
+   }
+   
+   .orange:after {
+    border-color: #FFED00 #FFED00 transparent transparent;
+   }
+   
+   .blue {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+   }
+   
+   .blue:before {
+    border-color: #2DAAE1 #2DAAE1 transparent transparent;
+   }
+   
+   .blue:after {
+    border-color: #A1DAF7 #A1DAF7 transparent transparent;
+   }
+   
+   .green {
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+   }
+   
+   .green:before {
+    border-color: #2FAC66 #2FAC66 transparent transparent;
+   }
+   
+   .green:after {
+    border-color: #96C11F #96C11F transparent transparent;
+   }
+   
+   .yellow {
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    transform: rotate(270deg);
+   }
+   
+   .yellow:before {
+    border-color: #E50046 #E50046 transparent transparent;
+   }
+   
+   .yellow:after {
+    border-color: #F0869D #F0869D transparent transparent;
+   }
+   
+   .stand {
+    position: absolute;
+    top: 240px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    z-index: -5;
+    width: 10px;
+    height: 320px;
+    background-size: 50px 50px;
+    background-color: #c16;
+    background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent);
+    background-image: -moz-linear-gradient(-45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent);
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent);
+   }
+   
+   
+   /*-- Paper Wind Mill --*/
+   
+   @-webkit-keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+    }
+   
+   @keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+    }
+   
+   .spin {
+    -webkit-animation: rotate 1.6s linear infinite;
+    animation: rotate 0.6s linear infinite;
+   }
+   
+   /*-- Rotate --*/
+   .scale-4 {
+    -webkit-transform: scale(0.8);
+    transform: scale(0.8);
+   }
+   
+   
+  
