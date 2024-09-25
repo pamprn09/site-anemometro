@@ -23,7 +23,7 @@ Este projeto cria um site em HTML5 que interage com um anemômetro (medidor de v
 - Permissão de acesso à porta serial (`/dev/ttyUSB0` ou outra porta que o Arduino utiliza).
 
 ## Estrutura do projeto
-
+```
 /anemometro
 ├── /public          # Arquivos acessíveis pelo navegador
 │   ├── index.html   # O arquivo principal do site
@@ -35,6 +35,7 @@ Este projeto cria um site em HTML5 que interage com um anemômetro (medidor de v
 ├── package.json     # Arquivo de configuração do Node.js
 ├── install.sh       # Script de instalação
 └── README.md        # Instruções do projeto
+```
 
 
 ## Instalação
