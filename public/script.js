@@ -4,7 +4,7 @@ let currentHelixSpeed = 0; // Velocidade atual da hélice
 let isArduinoTabActive = true; // Controla se a aba Arduino está ativa
 
 function setWindSpeed(speed) {
-    const blade = document.querySelector('.petal-wrap'); // Seleciona o contêiner das pétalas do cata-vento
+    const blade = document.querySelector('#helix-content .petal-wrap'); // Seleciona o contêiner das pétalas do cata-vento
 
     // A duração da animação deve ser menor para ventos mais fortes
     blade.style.animationDuration = (5 / (speed + 1)) + 's'; // Ajuste este valor para tornar a animação mais rápida
