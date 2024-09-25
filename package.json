@@ -1,0 +1,22 @@
+{
+  "name": "anemometro",
+  "version": "1.0.0",
+  "description": "O site interage com os valores captados pelo sensor de ventos HWFS-1 e demonstra um ventilador, de modo que as crianças entendam a intensidade do vento. Funciona com site local",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js"
+  },
+  "keywords": [
+    "vento",
+    "arduino",
+    "anemometro"
+  ],
+  "author": "Pamela Ribeiro",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.0",
+    "serialport": "^12.0.0",
+    "socket.io": "^4.5.4"
+  }
+}
