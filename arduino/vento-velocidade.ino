@@ -7,11 +7,9 @@ LiquidCrystal lcd(rs, en, d4, d5, d6, d7); // Configura os pinos do LCD
 // Definindo o pino de entrada analógica
 const int windPin = A0; // Pino A0 conectado à saída do sensor
 
-// Definindo a tensão máxima de saída do sensor
-const float maxVoltage = 4.0; // Tensão máxima do sensor (4V)
-
-// Definindo a velocidade do vento máxima correspondente em m/s
-const float maxWindSpeed = 7.0; // Velocidade máxima do vento (7 m/s)
+// Verifique o datasheet do sensor para ajustar esses valores:
+const float maxVoltage = 5.0; // Ajustado para 5V (valor típico)
+const float maxWindSpeed = 32.0; // Ajustado para 32 m/s (valor típico de sensores de vento)
 
 // Fator de conversão de m/s para km/h
 const float conversionFactor = 3.6;
@@ -30,7 +28,7 @@ void loop() {
   int sensorValue = analogRead(windPin);
   
   // Converter o valor lido (0 a 1023) para a tensão correspondente (0 a 5V)
-  float voltage = sensorValue * (5.0 / 1023.0);
+  float voltage = sensorValue * (12.0 / 1023.0); // Agora assumindo tensão máxima de 5V
   
   // Converter a tensão lida na velocidade do vento em m/s
   float windSpeedMs = (voltage / maxVoltage) * maxWindSpeed;
