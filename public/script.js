@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Função para determinar o tipo de vento com base na velocidade (em km/h)
 function getWindType(speed) {
     if (speed < 1) return 'Calma';
-    if (speed >= 1 && speed <= 7) return 'Aragem';
+    if (speed >= 1 && speed <= 7) return 'Brisa';
     if (speed > 7 && speed <= 11) return 'Vento leve';
     if (speed > 11 && speed <= 19) return 'Vento moderado';
     if (speed > 19 && speed <= 28) return 'Vento Fresco';
