@@ -11,10 +11,16 @@ const int windPin = A0; // Pino A0 conectado à saída do sensor
 const float maxVoltage = 4.0; // Tensão máxima do sensor (4V)
 
 // Definindo a velocidade do vento máxima correspondente em m/s
-const float maxWindSpeed = 32.0; // Velocidade máxima do vento (7 m/s)
+const float maxWindSpeed = 52.0; // Velocidade máxima do vento (32 m/s)
 
 // Fator de conversão de m/s para km/h
 const float conversionFactor = 3.6;
+
+// Definindo os pinos para os LEDs
+const int ledBranco = 2;  // LED para "Calmo"
+const int ledAzul = 3;    // LED para "Leve"
+const int ledVerde = 4;   // LED para "Médio"
+const int ledAmarelo = 5; // LED para "Forte"
 
 void setup() {
   // Inicializando a comunicação serial
@@ -23,6 +29,18 @@ void setup() {
   // Inicializando o LCD
   lcd.begin(16, 2); // Configura o LCD para 16 colunas e 2 linhas
   lcd.print("TEM VENTO?"); // Exibe um texto inicial no LCD
+  
+  // Configurando os pinos dos LEDs como saídas
+  pinMode(ledBranco, OUTPUT);
+  pinMode(ledAzul, OUTPUT);
+  pinMode(ledVerde, OUTPUT);
+  pinMode(ledAmarelo, OUTPUT);
+  
+  // Inicializando os LEDs como desligados
+  digitalWrite(ledBranco, LOW);
+  digitalWrite(ledAzul, LOW);
+  digitalWrite(ledVerde, LOW);
+  digitalWrite(ledAmarelo, LOW);
 }
 
 void loop() {
@@ -30,7 +48,7 @@ void loop() {
   int sensorValue = analogRead(windPin);
   
   // Converter o valor lido (0 a 1023) para a tensão correspondente (0 a 5V)
-  float voltage = sensorValue * (12 / 1023.0);
+  float voltage = sensorValue * (5.0 / 1023.0);
   
   // Converter a tensão lida na velocidade do vento em m/s
   float windSpeedMs = (voltage / maxVoltage) * maxWindSpeed;
@@ -46,17 +64,22 @@ void loop() {
   lcd.print("                "); // Limpa a linha (16 espaços)
   lcd.setCursor(0, 1); // Volta ao início da linha
   
-  // Obter o tipo de vento
+  // Obter o tipo de vento e ligar o LED correspondente
   const char* windType = getWindType(windSpeedKmh);
   
-  // Exibir a velocidade e o tipo de vento com uma barra
+  // Exibir a velocidade e o tipo de vento
   if (windSpeedKmh > 0) {
-      lcd.print(windSpeedKmh, 2); // Exibe a velocidade em km/h com 2 casas decimais
-      lcd.print("km/h "); // Adiciona a barra
-      lcd.print(windType); // Exibe o tipo de vento
+    lcd.print(windType); // Exibe o tipo de vento
+     lcd.print("  ");
+    lcd.print(windSpeedKmh, 0); // Exibe a velocidade em km/h com 0 casas decimais
+    lcd.print("km/h");
+    
   } else {
-      lcd.print("NAO");
+    lcd.print("NAO");
   }
+  
+  // Controlar os LEDs com base no tipo de vento
+  controlLeds(windType);
   
   // Aguardar 1 segundo antes de fazer a próxima leitura
   delay(1000);
@@ -64,8 +87,33 @@ void loop() {
 
 // Função para determinar o tipo de vento com base na velocidade
 const char* getWindType(float speed) {
-    if (speed >= 0 && speed < 1) return "Calmo";
-    else if (speed >= 1 && speed < 12) return "Leve";
-    else if (speed >= 12 && speed < 29) return "Médio";
-    else return "Forte";
+  if (speed >= 0 && speed < 1) return "CALMO";
+  else if (speed >= 1 && speed < 12) return "BRISA";
+  else if (speed >= 12 && speed < 29) return "MEDIO";
+  else return "TEMPESTADE";
+}
+
+// Função para controlar os LEDs com base no tipo de vento
+void controlLeds(const char* windType) {
+  if (strcmp(windType, "CALMO") == 0) {
+    digitalWrite(ledBranco, HIGH);
+    digitalWrite(ledAzul, LOW);
+    digitalWrite(ledVerde, LOW);
+    digitalWrite(ledAmarelo, LOW);
+  } else if (strcmp(windType, "BRISA") == 0) {
+    digitalWrite(ledBranco, LOW);
+    digitalWrite(ledAzul, HIGH);
+    digitalWrite(ledVerde, LOW);
+    digitalWrite(ledAmarelo, LOW);
+  } else if (strcmp(windType, "MEDIO") == 0) {
+    digitalWrite(ledBranco, LOW);
+    digitalWrite(ledAzul, LOW);
+    digitalWrite(ledVerde, HIGH);
+    digitalWrite(ledAmarelo, LOW);
+  } else { // Forte
+    digitalWrite(ledBranco, LOW);
+    digitalWrite(ledAzul, LOW);
+    digitalWrite(ledVerde, LOW);
+    digitalWrite(ledAmarelo, HIGH);
+  }
 }
