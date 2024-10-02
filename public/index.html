@@ -22,65 +22,72 @@
                 <span id="wind-type">Calmo</span><hr>
                 VELOCIDADE: <span id="wind-speed">0.00</span> Km/h
             </div>
-            <div class="wind-mill fly scale-4" style="bottom: -50px; left: 3%; -webkit-animation-direction: reverse;">
-                <div class="petal-wrap spin">	
-                    <div class="petal blue"></div>
-                    <div class="petal yellow"></div>
-                    <div class="petal orange"></div>
-                    <div class="petal green"></div>		
+            <div class="arduino-wrapper">
+                <div class="wind-wrapper">
+                    <div class="wind-mill fly scale-4" style="bottom: -50px; left: 3%; -webkit-animation-direction: reverse;">
+                        <div class="petal-wrap spin">	
+                            <div class="petal blue"></div>
+                            <div class="petal yellow"></div>
+                            <div class="petal orange"></div>
+                            <div class="petal green"></div>		
+                        </div>
+                        <div class="stand"></div>
+                    </div>
                 </div>
-                <div class="stand"></div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Velocidade (km/h)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-speed="0">
+                                <td>Calma</td>
+                                <td>0 a 1</td>
+                            </tr>
+                            <tr data-speed="2">
+                                <td>Brisa</td>
+                                <td>2 a 6</td>
+                            </tr>
+                            <tr data-speed="4">
+                                <td>Vento Leve</td>
+                                <td>7 a 11</td>
+                            </tr>
+                            <tr data-speed="6">
+                                <td>Vento Moderado</td>
+                                <td>12 a 19</td>
+                            </tr>
+                            <tr data-speed="8">
+                                <td>Vento Fresco</td>
+                                <td>20 a 28</td>
+                            </tr>
+                            <tr data-speed="10">
+                                <td>Vento Forte</td>
+                                <td>29 a 38</td>
+                            </tr>
+                            <tr data-speed="12">
+                                <td>Vento Muito Forte</td>
+                                <td>39 a 49</td>
+                            </tr>
+                            <tr data-speed="14">
+                                <td>Tempestade</td>
+                                <td>50 a 61</td>
+                            </tr>
+                            <tr data-speed="16">
+                                <td>Tempestade Violenta</td>
+                                <td>62 a 74</td>
+                            </tr>
+                            <tr data-speed="18">
+                                <td>Furacão</td>
+                                <td>75 ou mais</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Tipo</th>
-                        <th>Velocidade (km/h)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr data-speed="0">
-                        <td>Calma</td>
-                        <td>0 a 1</td>
-                    </tr>
-                    <tr data-speed="2">
-                        <td>Brisa</td>
-                        <td>2 a 6</td>
-                    </tr>
-                    <tr data-speed="4">
-                        <td>Vento Leve</td>
-                        <td>7 a 11</td>
-                    </tr>
-                    <tr data-speed="6">
-                        <td>Vento Moderado</td>
-                        <td>12 a 19</td>
-                    </tr>
-                    <tr data-speed="8">
-                        <td>Vento Fresco</td>
-                        <td>20 a 28</td>
-                    </tr>
-                    <tr data-speed="10">
-                        <td>Vento Forte</td>
-                        <td>29 a 38</td>
-                    </tr>
-                    <tr data-speed="12">
-                        <td>Vento Muito Forte</td>
-                        <td>39 a 49</td>
-                    </tr>
-                    <tr data-speed="14">
-                        <td>Tempestade</td>
-                        <td>50 a 61</td>
-                    </tr>
-                    <tr data-speed="16">
-                        <td>Tempestade Violenta</td>
-                        <td>62 a 74</td>
-                    </tr>
-                    <tr data-speed="18">
-                        <td>Furacão</td>
-                        <td>75 ou mais</td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
 
         <div id="helix-content" style="display: none;">
