@@ -1,7 +1,7 @@
 let isArduinoAvailable = true; // Altere para false se o Arduino não estiver disponível
 let currentArduinoSpeed = 0; // Velocidade atual do Arduino
 let currentHelixSpeed = 0; // Velocidade atual da hélice
-let isArduinoTabActive = true; // Controla se a aba Arduino está ativa
+let isArduinoTabActive = false; // Defina como false para que a aba Hélice seja a padrão ao carregar a página
 
 function setWindSpeed(speed) {
     const blade = document.querySelector('#helix-content .petal-wrap'); // Seleciona o contêiner das pétalas do cata-vento
@@ -105,6 +105,13 @@ function setHelixWindSpeed(speed) {
 document.addEventListener('DOMContentLoaded', () => {
     const blade = document.querySelector('.petal-wrap');
     blade.style.animationPlayState = 'paused';
+    
+    // Define a aba Hélice como padrão ao carregar a página
+    document.getElementById('helix-content').style.display = 'block';
+    document.getElementById('arduino-content').style.display = 'none';
+    document.getElementById('helix-tab').classList.add('active');
+    document.getElementById('arduino-tab').classList.remove('active');
+
     // Inicia o WebSocket para receber dados do Arduino
     if (isArduinoAvailable) {
         setupWebSocket();
