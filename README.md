@@ -61,7 +61,7 @@ Siga os passos abaixo para configurar o projeto em sua máquina local:
     Abra seu navegador e acesse: `http://localhost:3000`
 
 ## Configuração do Arduino
-Certifique-se de que o Arduino esteja corretamente configurado para medir a velocidade do vento com o anemômetro e que envie os dados via porta serial. O projeto assume que o Arduino está se comunicando via porta /dev/ttyUSB0 com uma taxa de baud de 9600.
+Certifique-se de que o Arduino esteja corretamente configurado para medir a velocidade do vento com o anemômetro e que envie os dados via porta serial. O projeto assume que o Arduino está se comunicando via porta /dev/ttyUSB0 com uma taxa de baud de 9600. (Abaixo você encontra o passo a passo de setup do Arduino)
 
 ### Personalização
 - **Hélice:** O comportamento da hélice (velocidade de rotação e cor) pode ser ajustado no arquivo /public/script.js.
@@ -71,3 +71,105 @@ Certifique-se de que o Arduino esteja corretamente configurado para medir a velo
 - Verifique se o Arduino está conectado na porta serial correta.
 - Se você estiver usando um sistema operacional que requer permissões especiais para acessar a porta serial, use sudo para conceder permissões ou configure as permissões de acesso à porta manualmente.
 - Caso o WebSocket não funcione corretamente, verifique se o servidor Node.js está rodando sem erros e se o navegador tem suporte a WebSockets.
+
+
+------
+
+
+# Guia de Conexão do Anemômetro com Arduino e Display LCD
+
+Este guia descreve o passo a passo para conectar um anemômetro ao Arduino e exibir as informações de velocidade do vento em um display LCD de 16x2.
+
+## Componentes Necessários
+- 1 x Arduino UNO
+- 1 x Anemômetro (sensor de velocidade do vento)
+- 1 x Display LCD 16x2
+- 1 x Protoboard
+- 1 x Potenciômetro de 10k (para ajustar o contraste do LCD)
+- 1 x Resistor de 220 Ohms (para limitar a corrente dos LEDs)
+- Fios jumper
+
+## Conexões do Arduino e LCD
+Conecte o display LCD ao Arduino utilizando os seguintes pinos:
+
+| **Pino LCD** | **Pino Arduino** | **Descrição**          |
+|--------------|------------------|------------------------|
+| VSS          | GND              | Terra                  |
+| VDD          | 5V               | Alimentação            |
+| V0           | Potenciômetro    | Controle de contraste  |
+| RS           | 7                | Seleção de registro    |
+| RW           | GND              | Modo de escrita        |
+| E            | 8                | Habilitar              |
+| D4           | 9                | Dados (4 bits)         |
+| D5           | 10               | Dados (4 bits)         |
+| D6           | 11               | Dados (4 bits)         |
+| D7           | 12               | Dados (4 bits)         |
+| A (Anodo)    | 5V via resistor  | Alimentação do LED     |
+| K (Cátodo)   | GND              | Terra do LED           |
+
+### Circuito do LCD com Potenciômetro
+1. Conecte o pino `V0` (pino 3 do LCD) ao pino central do potenciômetro para ajustar o contraste.
+2. Conecte um dos terminais do potenciômetro ao `GND` e o outro ao `5V` do Arduino.
+
+## Conexão do Anemômetro ao Arduino
+O anemômetro possui três fios: 
+- **VCC**: 5V (Alimentação)
+- **GND**: GND (Terra)
+- **Sinal**: Conecte ao pino analógico `A0` do Arduino.
+
+### Resumo das Conexões do Anemômetro:
+| **Fio Anemômetro** | **Pino Arduino** |
+|--------------------|------------------|
+| VCC                | 5V               |
+| GND                | GND              |
+| Sinal              | A0               |
+
+## Código Arduino para Controle do Anemômetro e LCD
+
+```cpp
+#include <LiquidCrystal.h> // Inclui a biblioteca para o LCD
+
+// Definindo os pinos do LCD
+const int rs = 7, en = 8, d4 = 9, d5 = 10, d6 = 11, d7 = 12;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7); // Configura os pinos do LCD
+
+// Definindo o pino de entrada analógica para o anemômetro
+const int windPin = A0;
+
+// Definindo a tensão máxima de saída do sensor
+const float maxVoltage = 4.0; // Tensão máxima do sensor (4V)
+
+// Definindo a velocidade do vento máxima correspondente em m/s
+const float maxWindSpeed = 32.0;
+
+// Fator de conversão de m/s para km/h
+const float conversionFactor = 3.6;
+
+void setup() {
+  Serial.begin(9600); // Inicializa a comunicação serial
+  lcd.begin(16, 2); // Configura o LCD para 16 colunas e 2 linhas
+  lcd.print("TEM VENTO?"); // Exibe um texto inicial no LCD
+}
+
+void loop() {
+  int sensorValue = analogRead(windPin); // Lê o valor do sensor
+  float voltage = sensorValue * (5.0 / 1023.0); // Converte o valor lido para tensão
+  float windSpeedMs = (voltage / maxVoltage) * maxWindSpeed; // Calcula a velocidade do vento em m/s
+  float windSpeedKmh = windSpeedMs * conversionFactor; // Converte para km/h
+
+  Serial.println(windSpeedKmh); // Exibe a velocidade no Serial Monitor
+
+  lcd.setCursor(0, 1);
+  lcd.print("                "); // Limpa a linha (16 espaços)
+  lcd.setCursor(0, 1); // Volta ao início da linha
+
+  if (windSpeedKmh > 0) {
+      lcd.print(windSpeedKmh, 2); // Exibe a velocidade com 2 casas decimais
+      lcd.print(" km/h");
+  } else {
+      lcd.print("NAO");
+  }
+
+  delay(1000); // Aguarda 1 segundo antes da próxima leitura
+}
+
