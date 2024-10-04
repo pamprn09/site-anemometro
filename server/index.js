@@ -11,7 +11,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 // Comunicação com o Arduino via Serial
 // Conectar diretamente à porta especificada
-const serialPath = '/dev/tty.usbmodem141201'; // Porta serial do Arduino
+const serialPath = '/dev/tty.usbmodem14201'; 
 
 console.log(`Conectando à porta: ${serialPath}`);
 
